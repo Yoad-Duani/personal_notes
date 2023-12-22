@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0 # fetch all history so multiple commits can be scanned
       - name: GitGuardian scan
@@ -35,7 +35,6 @@ jobs:
         with:
           config: markdownlint-config.json
           files: "docs/**/*.md"
-          version: 0.28.1
       - name: pulling git repo
         uses: actions/checkout@v2
       - name: deploy to ubunto server
