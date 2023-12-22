@@ -1,0 +1,78 @@
+name: Test and Deploy Docs-app
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    environment:
+      name: production
+    env:
+      DATABASE_HOSTNAME: ${{ secrets.DATABASE_HOSTNAME }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v3
+      - name: install python version 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: update pip
+        run: python -m pip install --upgrade pip
+      - name: install all dependencies
+        run: pip install -r ./main_server/requirements.txt
+      - name: test with pytest
+        run: |
+          pip install pytest
+          cd main_server
+          pytest
+      - name: summary
+        run: echo " ${{ github.job }} has ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+
+  git-guardian-scanning:
+    environment:
+      name: security
+    name: GitGuardian scan
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # fetch all history so multiple commits can be scanned
+      - name: GitGuardian scan
+        uses: GitGuardian/gg-shield-action@master
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+    # outputs:
+    #   jobStatus: ${{ job.status }}
+
+  deploy-to-ubunto-server:
+    environment:
+      name: production
+    runs-on: ubuntu-latest
+    needs: [test, git-guardian-scanning]
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v2
+      - name: deploy to ubunto server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          password: ${{ secrets.PROD_PASSWORD }}
+          script: |
+            cd docs-app/src
+            git pull
+            sudo -S systemctl restart docs_app
+      - name: summary
+        run: echo " ${{ github.job }} has ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
