@@ -36,7 +36,7 @@ jobs:
           config: markdownlint-config.json
           files: "docs/**/*.md"
       - name: pulling git repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: deploy to ubunto server
         uses: appleboy/ssh-action@master
         with:

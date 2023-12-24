@@ -37,7 +37,12 @@ nav:
           - ./dbs/vertica/vertica.md
       - mysql: ./dbs/mysql.md
       - mongo: ./dbs/mongo.md
-  - gcloud: ./gcloud.md
+  - Cloud:
+      - GCP:
+          - ./cloud/gcp/networking.md
+          - ./cloud/gcp/gcloud.md
+      - AWS:
+          - ./cloud/aws/aws.cli.md
 
 markdown_extensions:
   - pymdownx.highlight:
