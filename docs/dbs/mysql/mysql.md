@@ -2,26 +2,27 @@
 
 Add  and update recoreds
 
-```sql
---add raw to table:
+```sql title="add"
 INSERT INTO DB_NAME.TABLE_NAME (column1, column2) VALUES(value1, value2)
+```
 
---update command:
+```sql title="update"
 UPDATE DB_NAME.TABLE_NAME set column1=value1 WHERE column2=some_value
 ```
 
 Table size
 
 ```sql
--- Shows the table size in MB, it is possible to add more /1024 to show in GB
--- replace <DATABASE> and <Table>
 SELECT
     table_name AS `Table`,
     round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB`
 FROM information_schema.TABLES
 WHERE table_schema = "<DATABASE>"
     AND table_name = "<Table>";
+-- (1)!
 ```
+
+1. Shows the table size in MB, it is possible to add more /1024 to show in GB, replace `DATABASE` and `Table`
 
 mysqldumb
 
