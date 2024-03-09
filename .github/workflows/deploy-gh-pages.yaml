@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./docs
         shell: bash
     steps:
       - name: pulling git repo
