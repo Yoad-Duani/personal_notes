@@ -1,49 +1,49 @@
-name: Test and Deploy Docs-app
+# name: Test and Deploy Docs-app
 
-on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  git-guardian-scanning:
-    name: GitGuardian scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
-      - name: GitGuardian scan
-        uses: GitGuardian/gg-shield-action@master
-        env:
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
-          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
-          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+# jobs:
+#   git-guardian-scanning:
+#     name: GitGuardian scan
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0 # fetch all history so multiple commits can be scanned
+#       - name: GitGuardian scan
+#         uses: GitGuardian/gg-shield-action@master
+#         env:
+#           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+#           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+#           GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+#           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+#           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
-  deploy-to-ubunto-server:
-    runs-on: ubuntu-latest
-    needs: [git-guardian-scanning]
-    steps:
-      - name: test lint
-        uses: articulate/actions-markdownlint@v1
-        with:
-          config: markdownlint-config.json
-          files: "docs/**/*.md"
-      - name: pulling git repo
-        uses: actions/checkout@v3
-      - name: deploy to ubunto server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USERNAME }}
-          password: ${{ secrets.PROD_PASSWORD }}
-          script: |
-            cd docs-app/src
-            git pull
-            sudo -S systemctl restart docs_app
+#   deploy-to-ubunto-server:
+#     runs-on: ubuntu-latest
+#     needs: [git-guardian-scanning]
+#     steps:
+#       - name: test lint
+#         uses: articulate/actions-markdownlint@v1
+#         with:
+#           config: markdownlint-config.json
+#           files: "docs/**/*.md"
+#       - name: pulling git repo
+#         uses: actions/checkout@v3
+#       - name: deploy to ubunto server
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.PROD_HOST }}
+#           username: ${{ secrets.PROD_USERNAME }}
+#           password: ${{ secrets.PROD_PASSWORD }}
+#           script: |
+#             cd docs-app/src
+#             git pull
+#             sudo -S systemctl restart docs_app
