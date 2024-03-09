@@ -35,8 +35,10 @@ nav:
   - Databases:
       - Vertica:
           - ./dbs/vertica/vertica.md
-      - mysql: ./dbs/mysql.md
-      - mongo: ./dbs/mongo.md
+      - Mysql: ./dbs/mysql
+          - ./dbs/mysql/mysql.md
+      - Mongodb: ./dbs/mongodb
+          - ./dbs/mongodb/mongo.md
   - Cloud:
       - GCP:
           - ./cloud/gcp/networking.md
