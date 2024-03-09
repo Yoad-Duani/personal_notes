@@ -45,6 +45,8 @@ nav:
           - ./cloud/gcp/gcloud.md
       - AWS:
           - ./cloud/aws/aws.cli.md
+  - Kubernets:
+      - ./kubernets/kubectl.md
 
 markdown_extensions:
   - pymdownx.highlight:
