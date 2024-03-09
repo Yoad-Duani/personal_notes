@@ -18,7 +18,7 @@ gcloud container clusters describe CLUSTER_NAME --region=REGION
 
 ## storage commands
 
-```bash
+```bash title="Storage commands"
 gsutil ls gs://<gcs_name>
 
 gcloud storage cp <file/folder> gs://<gcs_name> --recursive
