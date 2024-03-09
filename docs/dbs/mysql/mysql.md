@@ -19,7 +19,7 @@ SELECT
 FROM information_schema.TABLES
 WHERE table_schema = "<DATABASE>"
     AND table_name = "<Table>";
--- (1)!
+-- (1)
 ```
 
 1. Shows the table size in MB, it is possible to add more /1024 to show in GB, replace `DATABASE` and `Table`
