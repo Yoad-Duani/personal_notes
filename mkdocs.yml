@@ -32,6 +32,8 @@ theme:
 
 nav:
   - Overview: ./index.md
+  - Linux:
+      - ./linux/startup-ubuntu.md
   - Databases:
       - Vertica:
           - ./dbs/vertica/vertica.md
@@ -72,7 +74,7 @@ extra:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/Yoad-Duani
     - icon: fontawesome/brands/linkedin
-      link: www.linkedin.com/in/yoad-duani
+      link: https://linkedin.com/in/yoad-duani
 
 copyright: |
   &copy; 2023 <a href="https://github.com/Yoad-Duani"  target="_blank" rel="noopener">Yoad Duani</a>
