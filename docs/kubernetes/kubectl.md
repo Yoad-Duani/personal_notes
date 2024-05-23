@@ -5,8 +5,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import injectScript from "./injectScript"; // Add this helper function
-import { useLazyThunk } from "./useLazyThunk"; // Add this helper function
-import { selectBasePath } from "./selectors"; // Add this selector
 import styles from "./EmbeddedSearchGalleryStyles"; // Add this styles file
 
 const lightTheme = {
@@ -21,13 +19,13 @@ const lightTheme = {
 };
 
 interface EmbeddedSearchProps {
-  authToken?: any;
+  authToken?: string;
 }
 
 const GleanSearch = ({ authToken }: EmbeddedSearchProps) => {
   const [query, setQuery] = useState("");
   const elementRef = useRef<HTMLDivElement>(null);
-  const basePath = useSelector(selectBasePath);
+  const basePath = useSelector((state: any) => state.auth.basePath);
 
   useEffect(() => {
     if (!elementRef.current) return;
@@ -54,7 +52,7 @@ const GleanSearch = ({ authToken }: EmbeddedSearchProps) => {
 const GleanSearchResultsPage = ({ authToken }: EmbeddedSearchProps) => {
   const [query, setQuery] = useState("");
   const elementRef = useRef<HTMLDivElement>(null);
-  const basePath = useSelector(selectBasePath);
+  const basePath = useSelector((state: any) => state.auth.basePath);
 
   useEffect(() => {
     if (!elementRef.current) return;
@@ -71,20 +69,25 @@ const GleanSearchResultsPage = ({ authToken }: EmbeddedSearchProps) => {
   return <div ref={elementRef} style={styles.serp} />;
 };
 
+const fetchAuthToken = async (): Promise<string> => {
+  // Replace this with your actual logic to fetch the auth token
+  return "your-auth-token";
+};
+
 const EmbeddedSearchGallery = () => {
-  const fetchAuthTokenThunk = useLazyThunk(loginThunks, "fetchAuthToken");
-  const [authToken, setAuthToken] = useState<any>();
+  const [authToken, setAuthToken] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      setAuthToken(await fetchAuthTokenThunk());
+      const token = await fetchAuthToken();
+      setAuthToken(token);
     })();
     injectScript({
       id: "embedded_search",
       src: "/embedded-search-latest.min.js",
     }).then(() => setIsLoading(false));
-  }, [fetchAuthTokenThunk]);
+  }, []);
 
   if (isLoading) return null;
 
