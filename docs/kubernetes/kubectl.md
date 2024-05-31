@@ -1,85 +1,53 @@
-```css
-/* GleanSearchComponent.css */
-#autocomplete-container {
-  display: block;
-  position: relative;
-  height: 60px;
-  width: 500px;
-}
-
-#native-search-box {
-  margin-right: 10px;
-}
-
-#search-results {
-  width: 100%;
-  height: 400px;
-}
-
-.header {
-  font-size: 20px;
-  margin: 30px 0 10px;
-}
-
-.row {
-  display: flex;
-}
-
-#chat-container {
-  height: 800px;
-  width: 750px;
-  max-width: 100%;
-  margin-bottom: 48px;
-}
-```
-
 ```tsx
-// GleanSearchComponent.tsx
-import React, { useEffect } from "react";
-import "./GleanSearchComponent.css";
+import React, { useEffect, useRef } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
-const GleanSearchComponent: React.FC = () => {
+const GleanSearchPage = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // Inject the script
     const script = document.createElement("script");
     script.src = "https://app.glean.com/embedded-search-latest.min.js";
     script.defer = true;
     document.body.appendChild(script);
 
     script.onload = () => {
-      const attach = (query: string | undefined = undefined) => {
-        (window as any).EmbeddedSearch.attach(
-          document.getElementById("search-box"),
-          {
-            domainsToOpenInCurrentTab: ["github.com"],
-            onSearch: (query: string) => {
-              const latestSearch = document.getElementById("latest-search");
-              if (latestSearch) {
-                latestSearch.innerText = query;
-              }
-            },
-            query,
-          }
-        );
-      };
+      if (!window.EmbeddedSearch) return;
 
-      attach();
+      window.EmbeddedSearch.renderChat(containerRef.current, {
+        chatId: searchParams.get("chatId") ?? "",
+        onChat: (chatId: string) => setSearchParams({ chatId }),
+        onSearch: (query: string) =>
+          navigate({
+            pathname: "/search",
+            search: new URLSearchParams({ query }).toString(),
+          }),
+      });
     };
 
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [searchParams, setSearchParams, navigate]);
 
   return (
-    <div>
-      <div className='row'>
-        <input id='search-box' placeholder='search' type='text' />
-      </div>
-      <div id='search-results' />
-    </div>
+    <div
+      ref={containerRef}
+      style={{
+        height: "100%",
+        width: "100%",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+      }}
+    />
   );
 };
 
-export default GleanSearchComponent;
+export default GleanSearchPage;
 ```
