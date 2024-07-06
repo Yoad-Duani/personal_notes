@@ -49,6 +49,8 @@ nav:
           - ./cloud/aws/aws.cli.md
   - Kubernets:
       - ./kubernetes/kubectl.md
+  - JS-TS:
+      - ./JS/nodejs.md
 
 markdown_extensions:
   - pymdownx.highlight:
