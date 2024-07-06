@@ -1,53 +1,15 @@
-```tsx
-import React, { useEffect, useRef } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+# Kubectl
 
-const GleanSearchPage = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+```bash title="Cleanup old contexts and clusters"
+kubectl config get-contexts -o name
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://app.glean.com/embedded-search-latest.min.js";
-    script.defer = true;
-    document.body.appendChild(script);
+kubectl config get-contexts -o name | grep 'old-context' | xargs -n 1 kubectl config delete-context
 
-    script.onload = () => {
-      if (!window.EmbeddedSearch) return;
+kubectl config get-clusters -o name
 
-      window.EmbeddedSearch.renderChat(containerRef.current, {
-        chatId: searchParams.get("chatId") ?? "",
-        onChat: (chatId: string) => setSearchParams({ chatId }),
-        onSearch: (query: string) =>
-          navigate({
-            pathname: "/search",
-            search: new URLSearchParams({ query }).toString(),
-          }),
-      });
-    };
+kubectl config get-clusters -o name | grep 'old-cluster' | xargs -n 1 kubectl config delete-cluster
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [searchParams, setSearchParams, navigate]);
+kubectl config get-users -o name
 
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        height: "100%",
-        width: "100%",
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-      }}
-    />
-  );
-};
-
-export default GleanSearchPage;
+kubectl config delete-user USERNAME
 ```
