@@ -1,7 +1,7 @@
-site_name: Personal Notes
+site_name: DevOps Notes
 site_author: Yoad Duani
 repo_url: https://github.com/Yoad-Duani/personal_notes
-repo_name: Personal Notes
+repo_name: DevOps Notes
 
 theme:
   name: material
@@ -34,6 +34,9 @@ nav:
   - Overview: ./index.md
   - Linux:
       - ./linux/startup-ubuntu.md
+  - Git & GitHub:
+      - ./git/understanding-git-merge.md
+      - ./git/understanding-git-stash.md
   - Databases:
       - Vertica:
           - ./dbs/vertica/vertica.md
@@ -49,8 +52,6 @@ nav:
           - ./cloud/aws/aws.cli.md
   - Kubernets:
       - ./kubernetes/kubectl.md
-  - JS-TS:
-      - ./JS/nodejs.md
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -64,7 +65,11 @@ markdown_extensions:
       generic: true
   - footnotes
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.mark
   - attr_list
   - pymdownx.emoji:
@@ -79,4 +84,4 @@ extra:
       link: https://linkedin.com/in/yoad-duani
 
 copyright: |
-  &copy; 2023 <a href="https://github.com/Yoad-Duani"  target="_blank" rel="noopener">Yoad Duani</a>
+  &copy; 2024 <a href="https://github.com/Yoad-Duani"  target="_blank" rel="noopener">Yoad Duani</a>
