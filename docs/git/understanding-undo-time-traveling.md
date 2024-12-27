@@ -15,6 +15,7 @@ Git will move `HEAD` to point directly to that commit.<br/>
 This is known as a detached HEAD state because you’re no longer on a branch,but rather pointing to a specific commit. <br/>
 Any commits you make in this state will not belong to any branch until you either create a new branch or re-attach `HEAD` to an existing branch.
 
+
 **Detached HEAD:**
 
 ```mermaid
@@ -30,12 +31,20 @@ gitGraph
 `HEAD` is now detached at `Commit E`.
 
 To get back onto a branch (e.g., main), you can run:<br />
-`git checkout main`
+
+```bash
+git checkout main
+```
 
 Now `HEAD` points back to the tip of main.<br />
-Another option is to create a new branch from the detached commit:<br />
-`git checkout -b my-new-branch`<br />
-This creates and switches you to my-new-branch, attaching HEAD to that branch.
+Another option is to create a new branch from the detached commit:
+
+```bash
+git checkout -b my-new-branch
+```
+
+This creates and switches you to `my-new-branch`, attaching `HEAD` to that branch.
+
 
 **Referencing Commits Relative to `HEAD`**
 
@@ -50,16 +59,18 @@ For example:
 
 ```mermaid
 gitGraph
-   commit id: "Commit 1"
-   commit id: "Commit 2" 
+   commit id: "Commit 1"tag: "HEAD~2"
+   commit id: "Commit 2" tag: "HEAD~1"
    commit id: "Commit 3" tag: "HEAD"
 ```
 
-`HEAD` points to **Commit 3**.
-`HEAD~1` would point to **Commit 2**.
+`HEAD` points to **Commit 3**.<br />
+`HEAD~1` would point to **Commit 2**.<br />
 `HEAD~2` would point to **Commit 1**.
 
 This is useful for operations like resetting, checking out, or restoring files.
+
+---
 
 ## Discarding Changes in a File
 
@@ -83,7 +94,9 @@ In newer Git versions, you can achieve the same effect with:
 git restore <filename>
 ```
 
-This discards all local changes in <filename> since the last commit on the current branch.
+This discards all local changes (**change that did not added yet**) in `<filename>` since the last commit on the current branch.
+
+---
 
 ## Restoring Files to a Specific Commit
 
@@ -111,6 +124,8 @@ If you later change your mind and want the version from HEAD again, just run:
 git restore <filename>
 ```
 
+---
+
 ## Unstaging Files
 
 If you’ve staged a file by running `git add <filename>` but then decide you don’t want it in the staging area,
@@ -121,6 +136,8 @@ git restore --staged <filename>
 ```
 
 This removes `<filename>` from the staging area but leaves your working directory changes intact.
+
+---
 
 ## Resetting Commits
 
@@ -198,5 +215,5 @@ gitGraph
 
 **Why Use `git revert`?**
 
-- Use `git revert` for shared branches to maintain a linear commit history.
-- Use `git reset` for local branches when you need to rewrite history.
+- Use **`git revert`** for shared branches to maintain a linear commit history.
+- Use **`git reset`** for local branches when you need to rewrite history.
