@@ -38,6 +38,7 @@ nav:
       - ./git/understanding-git-merge.md
       - ./git/understanding-git-stash.md
       - ./git/understanding-undo-time-traveling.md
+      - ./git/understanding-git-remotes.md
   - Databases:
       - Vertica:
           - ./dbs/vertica/vertica.md

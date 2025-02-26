@@ -1,5 +1,8 @@
 # Understanding Git Merge
 
+This section focuses on working with Git in local repositories.<br />
+In future sections, I will demonstrate how to work with remote repositories on platforms like GitHub and GitLab.
+
 ## Fast-Forward Merge
 
 **Scenario**
@@ -135,9 +138,9 @@ gitGraph
     commit id:"some-text"
     branch feature
     checkout main
-    commit id:"main changes line 2"
+    commit id:" changes line 2"
     checkout feature
-    commit id: "feature changes line 2"
+    commit id: "changes line 2"
     checkout main
     merge feature tag: "conflict" type:REVERSE
 ```
@@ -184,9 +187,9 @@ gitGraph
     commit id:"some-text"
     branch feature
     checkout main
-    commit id:"main changes line 2"
+    commit id:" changes line 2"
     checkout feature
-    commit id: "feature changes line 2"
+    commit id: "changes line 2"
     checkout main
     merge feature
     commit id:"merge commit"

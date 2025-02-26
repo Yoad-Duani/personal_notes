@@ -33,17 +33,21 @@ git stash apply    # Apply the stash but keep it in the stash list
 **Commands**
 
 ```bash
-git stash push -m "Feature work"    # Save with a custom name
+git stash push -m "Feature work"                        # Stash named stash
 
-git stash list                      # List all stashes
+git stash push -m "Feature work" --include-untracked    # Stash untracked files
+
+git stash push -m "Feature work" -S                     # Stash staged files
+
+git stash list                                          # List all stashes
 
 # Apply a specific stash
-git stash apply stash@{1}           # Apply stash by ID
+git stash apply stash@{1}                               # Apply stash by ID
 
-git stash pop stash@{1}             # Apply and remove stash by ID
+git stash pop stash@{1}                                 # Apply and remove stash by ID
 
 # Apply a specific stash by name
-git stash apply "stash^{/Feature work}"  # Apply stash by name
+git stash apply "stash^{/Feature work}"                 # Apply stash by name
 
 ```
 
@@ -70,7 +74,7 @@ git stash drop                       # Drop the stash if it was successfully app
 
 ---
 
-## Remove stash 
+## Remove stash
 
 **Explanation**
 
@@ -83,3 +87,7 @@ git stash drop stash@{1}            # Drop a specific stash
 
 git stash clear                     # Clear all stashes
 ```
+
+<br />
+
+## Full Example

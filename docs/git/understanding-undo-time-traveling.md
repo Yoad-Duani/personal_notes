@@ -1,7 +1,10 @@
-# Understanding Undo and Time Traveling in Git
+# Understanding Time Traveling In Git
 
 In Git, there are various ways to move through commit history, undo changes, and revert your project to previous states.<br/>
 This guide explains different scenarios, including diagrams that illustrate how Git operations work behind the scenes.
+
+This section focuses on working with Git in local repositories.<br />
+In future sections, I will demonstrate how to work with remote repositories on platforms like GitHub and GitLab.
 
 ## Checking Out a Specific Commit
 
@@ -88,7 +91,7 @@ Alternatively, the older short form is:
 git checkout -- <filename>
 ```
 
-In newer Git versions, you can achieve the same effect with:
+In **newer Git versions**, you can achieve the same effect with:
 
 ```bash
 git restore <filename>
@@ -110,9 +113,9 @@ This does not move `HEAD`; it only updates the file in your working directory to
 
 ```mermaid
 gitGraph
-   commit id: "Old Commit (HEAD~1)"
-   commit id: "Current Commit (HEAD)"
-   commit id: "Next Commit"
+   commit id: "Old Commit" tag: "HEAD~1"
+   commit id: "Current Commit" tag: "HEAD"
+
 ```
 
 You’re simply pulling the file’s contents from “**Old Commit (HEAD~1)**” into your working directory while staying on “Current Commit (HEAD)”.
@@ -153,18 +156,22 @@ By default, `git reset <commit-hash>` is a **mixed** reset, which moves `HEAD` t
 
 ```mermaid
 gitGraph
-    commit id: "New Commit (HEAD)"
-    commit id: "Target Commit"
     commit id: "Older Commit"
+    commit id: "Target Commit"
+    commit id: "New Commit" tag: "HEAD"
+    
 ```
 
 **After:**
 
 ```mermaid
 gitGraph
-    commit id: "Target Commit (HEAD)"
     commit id: "Older Commit"
+    commit id: "Target Commit" tag: "HEAD"
+
 ```
+If you now run `git status`
+you will see unstages files
 
 If you now run:
 
@@ -172,7 +179,7 @@ If you now run:
 git log --graph --oneline
 ```
 
-You might see "**New Commit**" commit is no longer reachable from your current HEAD (unless you do further actions).
+You might see the "**New Commit**" commit is no longer reachable from your current HEAD (unless you do further actions).
 
 To completely discard changes:
 
@@ -200,20 +207,22 @@ Before:
 
 ```mermaid
 gitGraph
-    commit id: "Buggy Commit (HEAD)"
     commit id: "Good Commit"
+    commit id: "Buggy Commit" tag: "HEAD"
+    
 ```
 
 After:
 
 ```mermaid
 gitGraph
-    commit id: "Revert Commit (HEAD)"
-    commit id: "Buggy Commit"
     commit id: "Good Commit"
+    commit id: "Buggy Commit"
+    commit id: "Revert Commit" tag: "HEAD"
+
 ```
 
 **Why Use `git revert`?**
 
 - Use **`git revert`** for shared branches to maintain a linear commit history.
-- Use **`git reset`** for local branches when you need to rewrite history.
+- Use **`git reset`** for local branches when you need to rewrite history. <br/> (This can be useful for removing secrets remotely, which will be described in the next sections)
