@@ -36,6 +36,12 @@ When you use `git pull`, Git automatically fetches and merges changes from the *
 
 ## Creating a New Local Repository and Connecting to GitHub
 
+If you've ever tried to create a new empty repository on GitHub, you've probably seen these instructions:
+
+![github-new-repo](./images/github-new-repo.PNG)
+
+As you can see, it adds a remote to the local Git repository
+
 1. **Initialize Local Repository**  
    First, create a new project folder and initialize Git:
    ```bash
@@ -53,7 +59,7 @@ When you use `git pull`, Git automatically fetches and merges changes from the *
    ```bash
    git remote add origin https://github.com/username/new-project.git
    ```
-   - **Explanation**: `git remote add origin <URL>` associates the name **origin** with the remote repository you just created on GitHub. This is the link between your local repo and the remote repo.
+    **Explanation**: `git remote add origin <URL>` associates the name **origin** with the remote repository you just created on GitHub. This is the link between your local repo and the remote repo.
 
 4. **Verify the Remote**  
    Use the `git remote -v` command again:
@@ -64,6 +70,19 @@ When you use `git pull`, Git automatically fetches and merges changes from the *
    ```
    origin  https://github.com/username/new-project.git (fetch)
    origin  https://github.com/username/new-project.git (push)
+   ```
+   you can add some remotes to the same repository:
+   ```bash
+   git remote add gitlab https://gitlab.com/yoad787/argocd-test.git
+   ```
+   ```bash
+   git remote -v
+   
+   # And the result:
+   gitlab  https://gitlab.com/yoad787/argocd-test.git (fetch)
+   gitlab  https://gitlab.com/yoad787/argocd-test.git (push)
+   origin  git@github.com:Yoad-Duani/personal_notes.git (fetch)
+   origin  git@github.com:Yoad-Duani/personal_notes.git (push)
    ```
 
 5. **Push Your Code**  
@@ -83,7 +102,7 @@ By default, many local Git installations name the initial branch **master**, whe
 git branch -M main
 ```
 
-This renames the current branch to **main** so that it matches the default naming convention on GitHub.
+This renames the **current** branch to **main** so that it matches the default naming convention on GitHub.
 
 ---
 ## Understanding Git Push
@@ -100,7 +119,7 @@ you're **sending** (pushing) commits from your local `<branch_name>` to the remo
 git push origin main
 ```
 
-pushes your local **main** branch to the **main** branch on `origin`.
+pushes your **local main** branch to the **remote main** branch on `origin`.
 
 ---
 
@@ -112,7 +131,7 @@ You don't necessarily have to push your local branch to the **same** remote bran
 git push origin feature2:main
 ```
 
-This will cause the branch `feature2` on your machine to be published to the remote repository as `main`.
+This will cause the branch `feature2` on your **local** to be published to the **remote repository** as `main`.
 
 ---
 
@@ -132,9 +151,12 @@ git push -u origin main
 
 The `-u` (or `--set-upstream`) flag sets your local **main** branch to track the **main** branch on `origin`. That way, if you are on your local **main** branch, you only need to type `git push` in the future.
 
+> **_NOTE:_**  When you clone a repo, git take care for the **default remote branch**
+> and link it to your local branch (usually `main` -> `origin/main`) <br />
+> see [Understanding Remote Tracking Branches](#understanding-remote-tracking-branches)
 ---
 
-### Error When No Upstream Is Set
+**Error When No Upstream Is Set**
 
 If you try to push a branch that doesn't have an upstream set yet, you'll see an error like:
 
@@ -146,9 +168,7 @@ To push the current branch and set the remote as upstream, use
 
 This simply means you need to tell Git **where** to push your local commits for that branch. Running the suggested command will set the upstream for the **main** branch on your local machine.
 
----
-
-### Example Output
+**Example Output**
 
 When you successfully push, you might see output similar to:
 
@@ -159,6 +179,67 @@ To https://github.com/username/my-repo.git
  * [new branch]      main -> main
 ```
 
-`main -> main` meaning that your local main branch pushed to remote main branch.
+`main -> main` meaning that your **local main branch** pushed to **remote main branch**.
+
+<br /> 
+
+
+## Understanding Remote Tracking Branches
+
+When you clone a repository or set up a new remote, Git automatically creates **remote tracking branches**. These are references in your local repository that track the state of remote branches. For example, `origin/main` is a remote tracking branch that represents the **main** branch on your remote named `origin`.
+
+### How Remote Tracking Branches Work
+
+A remote tracking branch like `origin/main` is **not** an actual local branch that you can directly commit to. Instead, it updates whenever you do a `git fetch` or `git pull` to show the latest state of the remote's main branch.
+
+Locally, when you run `git log --oneline --graph` <br>
+You might see something like this:
+
+```
+e0d3332 (HEAD -> main, origin/main)
+```
+
+This means:
+- **HEAD -> main**: You are currently on the local **main** branch.
+- **origin/main**: The remote tracking branch (for your `origin` remote) is at the same commit (here, `e0d3332`), indicating your local main is **in sync** with the remote’s main branch.
+
+### Viewing Remote Branches
+
+You can see what remote branches exist by running:
+
+```bash
+git branch -r
+```
+
+This command lists **remote** branches, such as:
+```
+  origin/main
+  origin/develop
+  origin/featureX
+```
+
+Any remote tracking branch that appears here has a corresponding branch in the remote repository. <br />
+To get one of these branches locally, and start to work on that you can just run switch:
+
+```bash
+git switch featureX
+```
+
+This will create a new local branch `featureX` and set it up to track the remote branch `origin/featureX`
+
+> **_NOTE:_**
+> The old command used in the past:
+> ```bash
+> git checkout --track origin/featureX
+> ```
+
+so now when you run
+
+```bash
+git branch
+# You will see the new local branch featureX
+main
+featureX
+```
 
 <br /> 

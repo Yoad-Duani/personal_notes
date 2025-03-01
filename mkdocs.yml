@@ -39,6 +39,7 @@ nav:
       - ./git/understanding-git-stash.md
       - ./git/understanding-undo-time-traveling.md
       - ./git/understanding-git-remotes.md
+      - ./git/working-with-remotes.md
   - Databases:
       - Vertica:
           - ./dbs/vertica/vertica.md
@@ -86,4 +87,4 @@ extra:
       link: https://linkedin.com/in/yoad-duani
 
 copyright: |
-  &copy; 2024 <a href="https://github.com/Yoad-Duani"  target="_blank" rel="noopener">Yoad Duani</a>
+  &copy; 2025 <a href="https://github.com/Yoad-Duani"  target="_blank" rel="noopener">Yoad Duani</a>
