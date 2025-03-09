@@ -119,6 +119,8 @@ git checkout master
 git merge feature
 ```
 
+> It usually opens your default Git editor for entering the commit message.
+
 Now, `master` contains a merge commit **M** that records both lines of history.
 
 <br>

@@ -30,31 +30,7 @@ theme:
       primary: darkblue
       accent: lime
 
-nav:
-  - Overview: ./index.md
-  - Linux:
-      - ./linux/startup-ubuntu.md
-  - Git & GitHub:
-      - ./git/understanding-git-merge.md
-      - ./git/understanding-git-stash.md
-      - ./git/understanding-undo-time-traveling.md
-      - ./git/understanding-git-remotes.md
-      - ./git/working-with-remotes.md
-  - Databases:
-      - Vertica:
-          - ./dbs/vertica/vertica.md
-      - Mysql:
-          - ./dbs/mysql/mysql.md
-      - Mongodb:
-          - ./dbs/mongodb/mongo.md
-  - Cloud:
-      - GCP:
-          - ./cloud/gcp/networking.md
-          - ./cloud/gcp/gcloud.md
-      - AWS:
-          - ./cloud/aws/aws.cli.md
-  - Kubernets:
-      - ./kubernetes/kubectl.md
+
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -88,3 +64,31 @@ extra:
 
 copyright: |
   &copy; 2025 <a href="https://github.com/Yoad-Duani"  target="_blank" rel="noopener">Yoad Duani</a>
+
+
+nav:
+  # - Overview: ./index.md
+  # - Linux:
+  #     - ./linux/startup-ubuntu.md
+  - Git & GitHub:
+      - ./git/understanding-git-merge.md
+      - ./git/understanding-git-stash.md
+      - ./git/understanding-undo-time-traveling.md
+      - ./git/understanding-git-remotes.md
+      - ./git/working-with-remotes.md
+      - ./git/feature-branches-workflow.md
+  - Databases:
+      # - Vertica:
+      #     - ./dbs/vertica/vertica.md
+      - Mysql:
+          - ./dbs/mysql/basic.md
+      # - Mongodb:
+      #     - ./dbs/mongodb/mongo.md
+  # - Cloud:
+  #     - GCP:
+  #         - ./cloud/gcp/networking.md
+  #         - ./cloud/gcp/gcloud.md
+  #     - AWS:
+  #         - ./cloud/aws/aws.cli.md
+  # - Kubernets:
+  #     - ./kubernetes/kubectl.md
